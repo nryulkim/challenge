@@ -3,10 +3,14 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .session-container{
   display: flex;
+  flex-direction: column;
+  align-items: center;
   .errors{
     color: #d00;
   }
   .session-form{
+    margin-top: 10px;
+    width: 200px;
     form{
       display: flex;
       flex-direction: column;

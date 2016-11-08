@@ -4,6 +4,8 @@ import { Link, withRouter } from 'react-router';
 class Header extends React.Component{
   constructor(props){
     super(props);
+
+    this.signout = this.signout.bind(this);
   }
 
   signout(){
@@ -16,7 +18,7 @@ class Header extends React.Component{
     if(currentUser){
       return [
         <h3>{currentUser.username}</h3>,
-        <Link className="button" to="/logout">Sign Out</Link>
+        <a className="button" onClick={this.signout}>Sign Out</a>
       ];
     }else{
       return [
