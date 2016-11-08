@@ -7,12 +7,12 @@ body{
 }
 
 .button{
-  background: linear-gradient(#ddd, #eee);
-  color: #555;
-  box-shadow: 0 0 3px #555;
+  background: linear-gradient(#F8F8F8, #F0F0F0);
+  color: #777;
+  box-shadow: 0 0 2px #777;
 }
 .button:hover{
-  background: linear-gradient(#bbb, #ddd);
+  background: linear-gradient(#F0F0F0, #F0F0F0);
   color: #000;
 }
 

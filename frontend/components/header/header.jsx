@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
-
+import SearchBar from './searchbar/searchbar_container';
 class Header extends React.Component{
   constructor(props){
     super(props);
@@ -37,6 +37,9 @@ class Header extends React.Component{
       <div className="head">
         <div className="home-container">
           <Link className="home" to="/">Home</Link>
+        </div>
+        <div className="searchbar-container">
+          <SearchBar/>
         </div>
         <div className="button-container">
           {button1}
