@@ -13,6 +13,9 @@ export default class App extends React.Component{
         <header>
           <Header />
         </header>
+        <content>
+          { children }
+        </content>
       </main>
     );
   }
