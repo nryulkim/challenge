@@ -1,3 +1,39 @@
 // Place all the styles related to the StaticPages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+  .home-container{
+    a {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #000;
+    }
+  }
+  .button-container{
+    a {
+      margin: 10px 15px;
+      padding: 2px 5px;
+      text-decoration: none;
+      border-radius: 4px;
+      background: linear-gradient(#ddd, #eee);
+      color: #555;
+      box-shadow: 0 0 3px #555;
+      font-size: 14px;
+    }
+    a:hover{
+      background: linear-gradient(#bbb, #ddd);
+      color: #000;
+    }
+  }
+}

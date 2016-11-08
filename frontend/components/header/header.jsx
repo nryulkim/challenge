@@ -33,8 +33,13 @@ class Header extends React.Component{
 
     return(
       <div className="head">
-        {button1}
-        {button2}
+        <div className="home-container">
+          <Link className="home" to="/">Home</Link>
+        </div>
+        <div className="button-container">
+          {button1}
+          {button2}
+        </div>
       </div>
     );
   }
