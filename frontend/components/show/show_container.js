@@ -4,7 +4,8 @@ import Show from './show';
 
 const mapStateToProps = ({ location }, ownProps) => {
   return({
-    yelp_url: location.yelp_url
+    yelp_url: location.yelp_url,
+    four_square_url: location.f_url
   });
 };
 

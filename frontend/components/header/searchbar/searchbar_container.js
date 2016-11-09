@@ -13,7 +13,8 @@ function mapDispatchToProps(dispatch){
   return({
     getSuggestions: (text, coords) => dispatch(getSuggestions(text, coords)),
     getLocation: (text, coords) => dispatch(getLocation(text, coords)),
-    removeLocation: () => dispatch(removeLocation())
+    removeLocation: () => dispatch(removeLocation()),
+    removeSuggestions: () => dispatch(removeSuggestions())
   });
 }
 

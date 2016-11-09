@@ -1,4 +1,4 @@
-import { RECEIVE_SUGGESTIONS } from '../actions/suggestions_actions';
+import { RECEIVE_SUGGESTIONS, REMOVE_SUGGESTIONS } from '../actions/suggestions_actions';
 import merge from "lodash/merge";
 
 export default (state = [], action) => {
@@ -7,6 +7,10 @@ export default (state = [], action) => {
   switch(action.type){
     case RECEIVE_SUGGESTIONS:
       newState = action.suggestions;
+      return newState;
+
+    case REMOVE_SUGGESTIONS:
+      newState = [];
       return newState;
 
     default:

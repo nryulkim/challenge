@@ -21,8 +21,18 @@ class ApplicationController < ActionController::Base
   end
 
   def yelp_token
-    @token ||= yelp_client.auth_code.get_token(yelp_code, :redirect_uri => "http://localhost:3000")
+    @y_token ||= yelp_client.auth_code.get_token(yelp_code, :redirect_uri => "http://localhost:3000")
   end
+
+  def four_square
+    @four_square ||= Foursquare2::Client.new(
+      client_id: ENV["four_square_client_id"],
+      client_secret: ENV["four_square_secret"],
+      api_version: 20130815
+    )
+  end
+
+  private
 
   def yelp_client
     @yelp ||= OAuth2::Client.new(
@@ -36,6 +46,6 @@ class ApplicationController < ActionController::Base
   end
 
   def yelp_code
-    @code ||=  yelp_client.auth_code.authorize_url(:redirect_uri => "http://localhost:3000")
+    @y_code ||=  yelp_client.auth_code.authorize_url(:redirect_uri => "http://localhost:3000")
   end
 end

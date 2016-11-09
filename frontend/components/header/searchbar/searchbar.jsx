@@ -86,6 +86,7 @@ class SearchBar extends React.Component {
     }else{
       this.props.router.push('/show');
     }
+    this.props.removeSuggestions();
   }
 
   getSuggestionValue(suggestion){
