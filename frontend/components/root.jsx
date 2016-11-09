@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from './app';
 import Session from './session/session_container.js';
+import Show from './show/show_container.js';
 
 
 
@@ -26,6 +27,7 @@ const Root = ({store}) => {
         <Route path="/" component={App}>
           <Router path="signup" component={Session} onEnter={_redirectIfLoggedIn}/>
           <Router path="login" component={Session} onEnter={_redirectIfLoggedIn}/>
+          <Router path="show" component={Show}/>
         </Route>
       </Router>
     </Provider>

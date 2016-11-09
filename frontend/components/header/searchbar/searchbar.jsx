@@ -80,7 +80,12 @@ class SearchBar extends React.Component {
     this.clicked = false;
     this.props.getLocation(value, coords);
     $("#searchTextField").val("");
-    this.setState({ value: "" });
+    this.setState({ value: "", suggestions:[""] });
+    if(this.props.router.location.pathname === "/show"){
+      this.props.removeLocation();
+    }else{
+      this.props.router.push('/show');
+    }
   }
 
   getSuggestionValue(suggestion){
