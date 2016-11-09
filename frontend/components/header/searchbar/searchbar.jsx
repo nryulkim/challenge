@@ -7,21 +7,37 @@ class SearchBar extends React.Component {
     super(props);
     this.cbID = 0;
     this.lastLength = 0;
+    this.lastCity = "";
     this.state = {
       value: '',
-      suggestions: [],
+      suggestions: [""],
       coords: [0, 0],
       city: "",
       placeholder: "Enter a City first"
     };
-    this.getSuggestions = this.getSuggestions.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
     this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
     this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getAllWords = this.getAllWords.bind(this);
     this.setText = this.setText.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({ suggestions: nextProps.words });
+  }
+
+  componentWillUpdate(nextProps, nextState){
+    const bar = this;
+    const length = nextState.value.length;
+    if(length > 3 && (this.lastLength !== length || this.lastCity !== nextState.city)){
+      this.lastLength = length;
+      this.lastCity = nextState.city;
+      window.clearTimeout(this.cbID);
+      this.cbID = window.setTimeout(() => {
+        bar.props.getSuggestions(nextState.value, nextState.coords);
+      }, 200);
+    }
   }
 
   componentDidMount(){
@@ -35,53 +51,10 @@ class SearchBar extends React.Component {
         const place = autocomplete.getPlace();
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
-        bar.setState({ city: place.name, coords: [lat, lng] });
+        bar.setState({ city: place.name, coords: [lat, lng], suggestions: [] });
       });
     }
     google.maps.event.addDomListener(window, 'load', initialize);
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(nextProps.videos !== null){
-      this.getAllWords(nextProps);
-    }
-  }
-
-  escapeRegexCharacters(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-  }
-
-  getAllWords(props){
-    // set autocomplete words
-    // let all_words = [];
-    // this.setState({ all_words });
-  }
-
-  getSuggestions(value) {
-    const { words } = this.props;
-    let suggestions = [""];
-    const searchTerms = value.trim().split(" ");
-    const testFunc = (regex) => {
-      return (word) => regex.test(word);
-    };
-
-    while(searchTerms.length > 0){
-      const term = searchTerms.shift();
-      const escapedValue = this.escapeRegexCharacters(term);
-      const regex = new RegExp(escapedValue, "i");
-      let suggestedWords = all_words.filter(testFunc(regex));
-      let newSuggestions = [];
-      for (let i = 0; i < suggestions.length; i++) {
-        for (let j = 0; j < suggestedWords.length; j++) {
-          let string = (`${suggestions[i]} ${suggestedWords[j]}`).trim();
-          newSuggestions.push(string);
-        }
-      }
-
-      suggestions = newSuggestions;
-    }
-    return suggestions;
   }
 
   shouldRenderSuggestions() {
@@ -112,21 +85,16 @@ class SearchBar extends React.Component {
   }
 
   onChange(event, { newValue, method }) {
+
     this.setState({
       value: newValue
     });
   }
 
   onSuggestionsFetchRequested({ value }) {
-    const bar = this;
-    const length = this.state.value.length;
-    if(this.lastLength !== length){
-      this.lastLength = length;
-      window.clearTimeout(this.cbID);
-      this.cbID = window.setTimeout(() => {
-        bar.props.getSuggestions(value, this.state.coords);
-      }, 500);
-    }
+    this.setState({
+      suggestions: this.props.words
+    });
   }
 
   onSuggestionsClearRequested() {
