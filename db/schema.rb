@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20161108033801) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "locations", force: :cascade do |t|
     t.string   "name",        null: false
     t.string   "location",    null: false
@@ -28,7 +31,7 @@ ActiveRecord::Schema.define(version: 20161108033801) do
     t.string   "session_token",   null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["session_token"], name: "index_users_on_session_token"
+    t.index ["session_token"], name: "index_users_on_session_token", using: :btree
   end
 
 end
