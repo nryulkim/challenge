@@ -15,6 +15,7 @@ class SearchBar extends React.Component {
       city: "",
       placeholder: "Enter a City first"
     };
+    this.clicked = false;
     this.onChange = this.onChange.bind(this);
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
     this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
@@ -30,7 +31,7 @@ class SearchBar extends React.Component {
   componentWillUpdate(nextProps, nextState){
     const bar = this;
     const length = nextState.value.length;
-    if(length > 3 && (this.lastLength !== length || this.lastCity !== nextState.city)){
+    if(length > 3 && !this.clicked && (this.lastLength !== length || this.lastCity !== nextState.city)){
       this.lastLength = length;
       this.lastCity = nextState.city;
       window.clearTimeout(this.cbID);
@@ -46,7 +47,7 @@ class SearchBar extends React.Component {
     const bar = this;
     function initialize() {
       const input = document.getElementById('searchTextField');
-      const autocomplete = new google.maps.places.Autocomplete(input);
+      const autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
       google.maps.event.addListener(autocomplete, 'place_changed', function () {
         const place = autocomplete.getPlace();
         const lat = place.geometry.location.lat();
@@ -58,7 +59,7 @@ class SearchBar extends React.Component {
   }
 
   shouldRenderSuggestions() {
-    return this.state.value.length > 2;
+    return !this.clicked && this.state.value.length > 2;
   }
 
   renderSuggestion(suggestion) {
@@ -69,13 +70,15 @@ class SearchBar extends React.Component {
 
   setText(e){
     e.preventDefault();
+    this.clicked = true;
     this.setState({ value: e.target.textContent });
   }
 
   handleSubmit(e){
     e.preventDefault();
     let { value, coords } = this.state;
-    console.log(coords + " " + value);
+    this.clicked = false;
+    this.props.getLocation(value, coords);
     $("#searchTextField").val("");
     this.setState({ value: "" });
   }
@@ -85,7 +88,7 @@ class SearchBar extends React.Component {
   }
 
   onChange(event, { newValue, method }) {
-
+    this.clicked = false;
     this.setState({
       value: newValue
     });

@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     resources :users, only: [:create]
     resource :session, only: [:create, :destroy]
     resources :suggestions, only: [:index]
+    resources :locations, only: [:index]
   end
 end

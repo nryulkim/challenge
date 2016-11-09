@@ -5,5 +5,4 @@ export const suggestions = (text, coords, success) => {
     dataType: "json",
     success
   });
-  // url: `https://api.yelp.com/v3/autocomplete?text=${text}&latitude=${coords[0]}&longitude=-${coords[1]}`,
 };
