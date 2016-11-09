@@ -12,6 +12,10 @@
     "w-w": "./node_modules/.bin/webpack -w",
     "heroku-postbuild": "webpack --config webpack.config.prod.js"
   },
+  "engines": {
+    "node": "6.2.1",
+    "npm": "3.9.3"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
