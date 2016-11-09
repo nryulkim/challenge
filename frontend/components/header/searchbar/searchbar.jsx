@@ -17,7 +17,8 @@ class SearchBar extends React.Component {
       ],
       suggestions: [],
       coord: [0, 0],
-      city: ""
+      city: "",
+      placeholder: "Enter a City first"
     };
     this.getSuggestions = this.getSuggestions.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -30,6 +31,7 @@ class SearchBar extends React.Component {
   }
 
   componentDidMount(){
+    $("#location-input").prop("disabled", true);
     $("#search-button").prop("disabled", true);
     const bar = this;
     function initialize() {
@@ -135,20 +137,31 @@ class SearchBar extends React.Component {
 
   toggleInput(){
     const { city, value } = this.state;
-    if(city && value){
-      $("#search-button").prop("disabled", false);
+    if(city){
+      $("#location-input").prop("disabled", false);
+      this.state.placeholder = "Location";
+      if(value){
+        $("#search-button").prop("disabled", false);
+      }
     }else if(!city || !value){
-      $("#search-button").prop("disabled", true);
+      $("#location-input").prop("disabled", true);
+      this.state.placeholder = "Enter a City first";
+      if(!value){
+        $("#search-button").prop("disabled", true);
+      }
     }
   }
 
   render() {
     const { value, suggestions, coord, city } = this.state;
+    this.toggleInput();
     const inputProps = {
       value,
-      onChange: this.onChange
+      onChange: this.onChange,
+      placeholder: this.state.placeholder,
+      className: "search-input",
+      id: "location-input"
     };
-    this.toggleInput();
 
     return (
       <form className="search" onSubmit={this.handleSubmit}>
@@ -157,7 +170,7 @@ class SearchBar extends React.Component {
           type="text"
           placeholder="City"
           autoComplete="on"
-          className="react-autosuggest__input location-input"/>
+          className="search-input city-input"/>
         <input type="hidden" value={city} name="city2" />
         <input type="hidden" value={coord[0]} name="cityLat" />
         <input type="hidden" value={coord[1]} name="cityLng" />
@@ -169,8 +182,7 @@ class SearchBar extends React.Component {
           shouldRenderSuggestions={this.shouldRenderSuggestions}
           renderSuggestion={this.renderSuggestion}
           onSuggestionSelected={this.setText}
-          inputProps={inputProps}
-          />
+          inputProps={inputProps}/>
         <button id="search-button" type="submit">Find</button>
       </form>
     );
