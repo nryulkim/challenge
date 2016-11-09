@@ -6,7 +6,8 @@ class Show extends React.Component {
     super(props);
     this.state = {
       yelp: "",
-      four_square: ""
+      four_square: "",
+      trip_advisor: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.update = this.update.bind(this);
@@ -68,6 +69,15 @@ class Show extends React.Component {
                   value={this.state.four_square}
                   onChange={this.update('four_square')}
                   placeholder="FourSquare URL"/>
+              </div>
+              <div>
+                <label htmlFor="trip_url">TripAdvisor</label>
+                <input
+                  id="trip_url"
+                  type="text"
+                  value={this.state.trip_advisor}
+                  onChange={this.update('trip_advisor')}
+                  placeholder="TripAdvisor URL"/>
               </div>
 
               <button id="submit" className="button" type="submit">Save</button>

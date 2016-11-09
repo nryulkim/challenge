@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Searchbar from './searchbar';
-import { getSuggestions } from '../../../actions/suggestions_actions';
+import { getSuggestions, removeSuggestions } from '../../../actions/suggestions_actions';
 import { getLocation, removeLocation } from '../../../actions/location_actions';
 
 function mapStateToProps(state){

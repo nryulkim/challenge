@@ -95,6 +95,7 @@ class SearchBar extends React.Component {
 
   onChange(event, { newValue, method }) {
     this.clicked = false;
+    $("#search-button").prop("disabled", true);
     this.setState({
       value: newValue
     });
@@ -117,13 +118,13 @@ class SearchBar extends React.Component {
     if(city){
       $("#location-input").prop("disabled", false);
       this.state.placeholder = "Location";
-      if(value){
+      if(value && this.clicked){
         $("#search-button").prop("disabled", false);
       }
     }else if(!city || !value){
       $("#location-input").prop("disabled", true);
       this.state.placeholder = "Enter a City first";
-      if(!value){
+      if(!value || !this.clicked){
         $("#search-button").prop("disabled", true);
       }
     }
