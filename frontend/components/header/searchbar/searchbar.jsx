@@ -15,9 +15,10 @@ class SearchBar extends React.Component {
         "someother",
         "somewhere"
       ],
-      suggestions: []
+      suggestions: [],
+      coord: [0, 0],
+      city: ""
     };
-
     this.getSuggestions = this.getSuggestions.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
@@ -25,6 +26,23 @@ class SearchBar extends React.Component {
     this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getAllWords = this.getAllWords.bind(this);
+    this.setText = this.setText.bind(this);
+  }
+
+  componentDidMount(){
+    $("#search-button").prop("disabled", true);
+    const bar = this;
+    function initialize() {
+      const input = document.getElementById('searchTextField');
+      const autocomplete = new google.maps.places.Autocomplete(input);
+      google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        const place = autocomplete.getPlace();
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        bar.setState({ city: place.name, coord: [lat, lng] });
+      });
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
   }
 
   componentWillReceiveProps(nextProps){
@@ -35,6 +53,7 @@ class SearchBar extends React.Component {
 
   escapeRegexCharacters(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
   }
 
   getAllWords(props){
@@ -42,7 +61,6 @@ class SearchBar extends React.Component {
     // let all_words = [];
     // this.setState({ all_words });
   }
-
 
   getSuggestions(value) {
     const { all_words } = this.state;
@@ -80,11 +98,17 @@ class SearchBar extends React.Component {
     );
   }
 
+  setText(e){
+    e.preventDefault();
+    this.setState({ value: e.target.textContent });
+  }
+
   handleSubmit(e){
     e.preventDefault();
-    let { value } = this.state;
-    console.log(value);
-    this.setState({value: ""});
+    let { value, coord } = this.state;
+    console.log(coord + " " + value);
+    $("#searchTextField").val("");
+    this.setState({ value: "" });
   }
 
   getSuggestionValue(suggestion){
@@ -109,15 +133,34 @@ class SearchBar extends React.Component {
     });
   }
 
+  toggleInput(){
+    const { city, value } = this.state;
+    if(city && value){
+      $("#search-button").prop("disabled", false);
+    }else if(!city || !value){
+      $("#search-button").prop("disabled", true);
+    }
+  }
+
   render() {
-    const { value, suggestions } = this.state;
+    const { value, suggestions, coord, city } = this.state;
     const inputProps = {
       value,
       onChange: this.onChange
     };
+    this.toggleInput();
 
     return (
       <form className="search" onSubmit={this.handleSubmit}>
+        <input
+          id="searchTextField"
+          type="text"
+          placeholder="City"
+          autoComplete="on"
+          className="react-autosuggest__input location-input"/>
+        <input type="hidden" value={city} name="city2" />
+        <input type="hidden" value={coord[0]} name="cityLat" />
+        <input type="hidden" value={coord[1]} name="cityLng" />
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -125,9 +168,10 @@ class SearchBar extends React.Component {
           getSuggestionValue={this.getSuggestionValue}
           shouldRenderSuggestions={this.shouldRenderSuggestions}
           renderSuggestion={this.renderSuggestion}
-          onSuggestionSelected={this.handleSubmit}
-          inputProps={inputProps} />
-        <button type="submit">Find</button>
+          onSuggestionSelected={this.setText}
+          inputProps={inputProps}
+          />
+        <button id="search-button" type="submit">Find</button>
       </form>
     );
   }

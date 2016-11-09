@@ -6,8 +6,8 @@
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
-
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="http://maps.googleapis.com/maps/api/js?key=<%=ENV["google_maps_key"]%>&amp;libraries=places" type="text/javascript"></script>
   </head>
 
   <body>
