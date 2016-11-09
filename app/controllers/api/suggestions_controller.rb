@@ -10,7 +10,6 @@ class Api::SuggestionsController < ApplicationController
     businesses.each do |obj|
       names.push(obj["name"])
     end
-
     @suggestions = names
   end
 end

@@ -130,7 +130,6 @@ class SearchBar extends React.Component {
       className: "search-input",
       id: "location-input"
     };
-
     return (
       <form className="search" onSubmit={this.handleSubmit}>
         <input
