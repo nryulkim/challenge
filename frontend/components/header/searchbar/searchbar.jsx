@@ -5,18 +5,12 @@ import Autosuggest from 'react-autosuggest';
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
-
+    this.cbID = 0;
+    this.lastLength = 0;
     this.state = {
       value: '',
-      all_words: [
-        "something",
-        "other",
-        "test case",
-        "someother",
-        "somewhere"
-      ],
       suggestions: [],
-      coord: [0, 0],
+      coords: [0, 0],
       city: "",
       placeholder: "Enter a City first"
     };
@@ -41,7 +35,7 @@ class SearchBar extends React.Component {
         const place = autocomplete.getPlace();
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
-        bar.setState({ city: place.name, coord: [lat, lng] });
+        bar.setState({ city: place.name, coords: [lat, lng] });
       });
     }
     google.maps.event.addDomListener(window, 'load', initialize);
@@ -65,7 +59,7 @@ class SearchBar extends React.Component {
   }
 
   getSuggestions(value) {
-    const { all_words } = this.state;
+    const { words } = this.props;
     let suggestions = [""];
     const searchTerms = value.trim().split(" ");
     const testFunc = (regex) => {
@@ -107,8 +101,8 @@ class SearchBar extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    let { value, coord } = this.state;
-    console.log(coord + " " + value);
+    let { value, coords } = this.state;
+    console.log(coords + " " + value);
     $("#searchTextField").val("");
     this.setState({ value: "" });
   }
@@ -124,9 +118,15 @@ class SearchBar extends React.Component {
   }
 
   onSuggestionsFetchRequested({ value }) {
-    this.setState({
-      suggestions: this.getSuggestions(value)
-    });
+    const bar = this;
+    const length = this.state.value.length;
+    if(this.lastLength !== length){
+      this.lastLength = length;
+      window.clearTimeout(this.cbID);
+      this.cbID = window.setTimeout(() => {
+        bar.props.getSuggestions(value, this.state.coords);
+      }, 500);
+    }
   }
 
   onSuggestionsClearRequested() {
@@ -153,7 +153,7 @@ class SearchBar extends React.Component {
   }
 
   render() {
-    const { value, suggestions, coord, city } = this.state;
+    const { value, suggestions, coords, city } = this.state;
     this.toggleInput();
     const inputProps = {
       value,
@@ -172,8 +172,8 @@ class SearchBar extends React.Component {
           autoComplete="on"
           className="search-input city-input"/>
         <input type="hidden" value={city} name="city2" />
-        <input type="hidden" value={coord[0]} name="cityLat" />
-        <input type="hidden" value={coord[1]} name="cityLng" />
+        <input type="hidden" value={coords[0]} name="cityLat" />
+        <input type="hidden" value={coords[1]} name="cityLng" />
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
