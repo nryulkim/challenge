@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import merge from 'lodash/merge';
 
 class Show extends React.Component {
@@ -24,8 +24,8 @@ class Show extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    const { location } = nextProps;
-    const { name, yelp_url, f_url } = location;
+    const { loc } = nextProps;
+    const { name, yelp_url, f_url } = loc;
     if(yelp_url){
       $(".location-container").show();
       $(".loader").hide();
@@ -39,12 +39,13 @@ class Show extends React.Component {
 
   handleSubmit(e){
     if(e){ e.preventDefault(); }
-    const data = merge({}, this.props.location, this.state);
-    if(this.props.location.new){
+    const data = merge({}, this.props.loc, this.state);
+    if(this.props.loc.new){
       this.props.newLocation(data, this.props.current_user);
     }else{
       this.props.updateLocation(data, this.props.current_user);
     }
+    this.props.router.push("/locations");
   }
 
   update(input){
@@ -99,4 +100,4 @@ class Show extends React.Component {
   }
 }
 
-export default Show;
+export default withRouter(Show);

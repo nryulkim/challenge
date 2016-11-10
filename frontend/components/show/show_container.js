@@ -5,7 +5,7 @@ import Show from './show';
 const mapStateToProps = (state, ownProps) => {
   const { location, session } = state;
   return({
-    location: location,
+    loc: location,
     current_user: session.currentUser
   });
 };
