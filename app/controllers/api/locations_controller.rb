@@ -39,6 +39,7 @@ class Api::LocationsController < ApplicationController
       @data = {
         yelp_url: @loc.yelp,
         f_url: @loc.foursquare,
+        t_url: @loc.tripadvisor,
         lat: @loc.lat,
         lng: @loc.lng,
         name: @loc.name,
@@ -77,6 +78,6 @@ class Api::LocationsController < ApplicationController
       f_url = ""
     end
 
-    { yelp_url: yelp_url, f_url: f_url, lat: lat, lng: lng, name: params["text"], new: true, id: nil }
+    { yelp_url: yelp_url, f_url: f_url, t_url: "", lat: lat, lng: lng, name: params["text"], new: true, id: nil }
   end
 end

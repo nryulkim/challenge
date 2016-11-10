@@ -25,11 +25,11 @@ class Show extends React.Component {
 
   componentWillReceiveProps(nextProps){
     const { loc } = nextProps;
-    const { name, yelp_url, f_url } = loc;
+    const { name, yelp_url, f_url, t_url } = loc;
     if(yelp_url){
       $(".location-container").show();
       $(".loader").hide();
-      this.setState({ name: name, yelp: yelp_url, foursquare: f_url });
+      this.setState({ name: name, yelp: yelp_url, foursquare: f_url, tripadvisor: t_url });
     }else{
       $(".location-container").hide();
       $(".loader").show();
