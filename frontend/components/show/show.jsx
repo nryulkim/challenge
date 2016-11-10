@@ -40,12 +40,16 @@ class Show extends React.Component {
   handleSubmit(e){
     if(e){ e.preventDefault(); }
     const data = merge({}, this.props.loc, this.state);
-    if(this.props.loc.new){
-      this.props.newLocation(data, this.props.current_user);
+    if(this.props.current_user){
+      if(this.props.loc.new){
+        this.props.newLocation(data, this.props.current_user);
+      }else{
+        this.props.updateLocation(data, this.props.current_user);
+      }
+      this.props.router.push("/locations");
     }else{
-      this.props.updateLocation(data, this.props.current_user);
+      this.props.router.push("/login");
     }
-    this.props.router.push("/locations");
   }
 
   update(input){
