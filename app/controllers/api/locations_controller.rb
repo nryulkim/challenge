@@ -19,7 +19,15 @@ class Api::LocationsController < ApplicationController
       f_url = ""
     end
 
-    @urls = { yelp_url: yelp_url, f_url: f_url }
+    @data = { yelp_url: yelp_url, f_url: f_url, lat: lat, lng: lng, name: params["text"] }
+  end
+
+  def create
+    debugger
+  end
+
+  def show
+
   end
 
   private

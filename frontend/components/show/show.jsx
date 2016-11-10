@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
+import merge from 'lodash/merge';
 
 class Show extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      name: "",
       yelp: "",
       four_square: "",
       trip_advisor: ""
@@ -22,10 +24,12 @@ class Show extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.yelp_url){
+    const { location } = nextProps;
+    const { name, yelp_url, f_url } = location;
+    if(yelp_url){
       $(".location-container").show();
       $(".loader").hide();
-      this.setState({ yelp: nextProps.yelp_url, four_square: nextProps.four_square_url });
+      this.setState({ name: name, yelp: yelp_url, four_square: f_url });
     }else{
       $(".location-container").hide();
       $(".loader").show();
@@ -35,7 +39,8 @@ class Show extends React.Component {
 
   handleSubmit(e){
     if(e){ e.preventDefault(); }
-    console.log("hello");
+    const data = merge({}, this.props.location, this.state);
+    this.newLocation(data, this.props.current_user);
   }
 
   update(input){
@@ -52,6 +57,7 @@ class Show extends React.Component {
         <div className="location-container">
           <div className="session-form">
             <form onSubmit={this.handleSubmit}>
+              <h1>{this.state.name}</h1>
               <div>
                 <label htmlFor="yelp_url">Yelp</label>
                 <input

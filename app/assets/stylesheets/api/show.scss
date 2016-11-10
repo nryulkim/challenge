@@ -8,6 +8,12 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    h1{
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      margin: 10px 0 30px;
+      font-size: 32px;
+    }
     div{
       width: 100%;
       display: flex;
@@ -23,6 +29,7 @@
     }
     .button{
       padding: 5px 10px;
+      cursor: pointer;
     }
   }
 }

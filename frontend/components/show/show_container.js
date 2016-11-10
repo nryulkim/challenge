@@ -1,17 +1,19 @@
 import { connect } from 'react-redux';
-import { removeLocation } from '../../actions/location_actions';
+import { removeLocation, newLocation } from '../../actions/location_actions';
 import Show from './show';
 
-const mapStateToProps = ({ location }, ownProps) => {
+const mapStateToProps = (state, ownProps) => {
+  const { location, session } = state;
   return({
-    yelp_url: location.yelp_url,
-    four_square_url: location.f_url
+    location: location,
+    current_user: session.current_user
   });
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return({
-    removeLocation: () => (dispatch(removeLocation()))
+    removeLocation: () => (dispatch(removeLocation())),
+    newLocation: (data, user) => (dispatch(addLocation(data, user)))
   });
 };
 
