@@ -8,8 +8,8 @@ class Show extends React.Component {
     this.state = {
       name: "",
       yelp: "",
-      four_square: "",
-      trip_advisor: ""
+      foursquare: "",
+      tripadvisor: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.update = this.update.bind(this);
@@ -29,7 +29,7 @@ class Show extends React.Component {
     if(yelp_url){
       $(".location-container").show();
       $(".loader").hide();
-      this.setState({ name: name, yelp: yelp_url, four_square: f_url });
+      this.setState({ name: name, yelp: yelp_url, foursquare: f_url });
     }else{
       $(".location-container").hide();
       $(".loader").show();
@@ -40,7 +40,12 @@ class Show extends React.Component {
   handleSubmit(e){
     if(e){ e.preventDefault(); }
     const data = merge({}, this.props.location, this.state);
-    this.newLocation(data, this.props.current_user);
+    debugger
+    if(this.props.location.new){
+      this.props.newLocation(data, this.props.current_user);
+    }else{
+      this.props.updateLocation(data, this.props.current_user);
+    }
   }
 
   update(input){
@@ -72,8 +77,8 @@ class Show extends React.Component {
                 <input
                   id="four_url"
                   type="text"
-                  value={this.state.four_square}
-                  onChange={this.update('four_square')}
+                  value={this.state.foursquare}
+                  onChange={this.update('foursquare')}
                   placeholder="FourSquare URL"/>
               </div>
               <div>
@@ -81,8 +86,8 @@ class Show extends React.Component {
                 <input
                   id="trip_url"
                   type="text"
-                  value={this.state.trip_advisor}
-                  onChange={this.update('trip_advisor')}
+                  value={this.state.tripadvisor}
+                  onChange={this.update('tripadvisor')}
                   placeholder="TripAdvisor URL"/>
               </div>
 

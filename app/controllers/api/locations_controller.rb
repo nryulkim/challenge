@@ -1,5 +1,63 @@
 class Api::LocationsController < ApplicationController
   def index
+
+  end
+
+  def create
+    @loc = Location.create(location_params)
+
+    l_id = @loc["id"]
+    u_id = params["user"]["id"]
+
+    conn = UserLocation.find_by(location_id: l_id, user_id: u_id)
+    unless conn
+      UserLocation.create(location_id: l_id, user_id: u_id)
+    end
+  end
+
+  def update
+    @loc = Location.find(params["id"])
+    if @loc
+      @loc.update(location_params)
+
+      l_id = params["id"]
+      u_id = params["user"]["id"]
+
+      conn = UserLocation.find_by(location_id: l_id, user_id: u_id)
+      unless conn
+        UserLocation.create(location_id: l_id, user_id: u_id)
+      end
+    end
+  end
+
+  def show
+    @loc = Location.fuzzy_find(params)
+
+    unless @loc
+      @data = getNewInfo(params)
+    else
+      @data = {
+        yelp_url: @loc.yelp,
+        f_url: @loc.foursquare,
+        lat: @loc.lat,
+        lng: @loc.lng,
+        name: @loc.name,
+        new: false,
+        id: @loc.id
+      }
+    end
+  end
+
+  private
+  def clean_text(text)
+    URI.escape(text.gsub(", Inc.", ""))
+  end
+
+  def location_params
+    params.require(:info).permit(:name, :lat, :lng, :yelp, :foursquare, :tripadvisor)
+  end
+
+  def getNewInfo(params)
     text = clean_text(params["text"])
     lat = params["latitude"].to_f
     lng = params["longitude"].to_f
@@ -19,19 +77,6 @@ class Api::LocationsController < ApplicationController
       f_url = ""
     end
 
-    @data = { yelp_url: yelp_url, f_url: f_url, lat: lat, lng: lng, name: params["text"] }
-  end
-
-  def create
-    debugger
-  end
-
-  def show
-
-  end
-
-  private
-  def clean_text(text)
-    URI.escape(text.gsub(", Inc.", ""))
+    { yelp_url: yelp_url, f_url: f_url, lat: lat, lng: lng, name: params["text"], new: true }
   end
 end
