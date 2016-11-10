@@ -5,6 +5,8 @@ export const REMOVE_LOCATION = "REMOVE_LOCATION";
 export const NEW_LOCATION = "NEW_LOCATION";
 export const UPDATE_LOCATION = "UPDATE_LOCATION";
 export const RECEIVE_LOCATIONS = "RECEIVE_LOCATIONS";
+export const UNSAVE_LOCATION = "UNSAVE_LOCATION";
+export const UPDATE_UNSAVED = "UPDATE_UNSAVED";
 
 export function myLocations(id){
   return({
@@ -46,6 +48,21 @@ export function updateLocation(data, user){
 export function removeLocation(){
   return({
     type: REMOVE_LOCATION
+  });
+}
+
+export function unsaveLocation(user_id, location_id){
+  return({
+    type: UNSAVE_LOCATION,
+    user_id,
+    location_id
+  });
+}
+
+export function updateUnsaved(location_id){
+  return({
+    type: UPDATE_UNSAVED,
+    location_id
   });
 }
 

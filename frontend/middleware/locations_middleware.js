@@ -1,7 +1,7 @@
 import * as LocationApi from '../util/location_api_util';
 import {
-  GET_LOCATION, NEW_LOCATION, UPDATE_LOCATION, MY_LOCATIONS,
-  receiveLocations, receiveLocation
+  GET_LOCATION, NEW_LOCATION, UPDATE_LOCATION, MY_LOCATIONS, UNSAVE_LOCATION,
+  receiveLocations, receiveLocation, updateUnsaved
 } from '../actions/location_actions';
 
 export default ({ getState, dispatch }) => next => action => {
@@ -21,15 +21,18 @@ export default ({ getState, dispatch }) => next => action => {
       return next(action);
 
     case NEW_LOCATION:
-      success = () => {
+      LocationApi.createLocation(action.data, action.user)
+      return next(action);
+
+    case UNSAVE_LOCATION:
+      success = location => {
+        dispatch(updateUnsaved(location.id))
       }
-      LocationApi.createLocation(action.data, action.user, success)
+      LocationApi.unsaveLocation(action.user_id, action.location_id, success)
       return next(action);
 
     case UPDATE_LOCATION:
-      success = () => {
-      }
-      LocationApi.updateLocation(action.data, action.user, success)
+      LocationApi.updateLocation(action.data, action.user)
       return next(action);
 
     default:

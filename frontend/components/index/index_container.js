@@ -1,18 +1,20 @@
 import { connect } from 'react-redux';
 import Index from './index';
-import { getLocation } from '../../actions/location_actions';
+import { getLocation, unsaveLocation } from '../../actions/location_actions';
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { location } = state;
+  const { location, session } = state;
   return({
-    locations: location.saved
+    locations: location.saved,
+    currentUser: session.currentUser
   });
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return({
     getLocation: (name, coords) => dispatch(getLocation(name, coords)),
+    unsaveLocation: (user_id, location_id) => dispatch(unsaveLocation(user_id, location_id))
   });
 };
 

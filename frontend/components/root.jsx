@@ -24,7 +24,9 @@ const Root = ({store}) => {
 
   const _getLocations = () => {
     const id = store.getState().session.currentUser.id;
-    store.dispatch(myLocations(id));
+    window.setTimeout(()=>{
+      store.dispatch(myLocations(id));
+    }, 500)
   };
 
   return (

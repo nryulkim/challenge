@@ -16,22 +16,30 @@ export const myLocations = (id, success) => {
   });
 };
 
-export const createLocation = (data, user, success) => {
+export const createLocation = (data, user) => {
   $.ajax({
     method: "POST",
     url: `api/locations`,
     dataType: "json",
-    data: { info: data, user: user },
-    success
+    data: { info: data, user: user }
   });
 };
 
-export const updateLocation = (data, user, success) => {
+export const updateLocation = (data, user) => {
   $.ajax({
     method: "PATCH",
     url: `api/locations/${data.id}`,
     dataType: "json",
-    data: { info: data, user: user },
+    data: { info: data, user: user }
+  });
+};
+
+export const unsaveLocation = (user_id, location_id, success) => {
+  $.ajax({
+    method: "DELETE",
+    url: `api/locations/1`,
+    dataType: "json",
+    data: { user_id, location_id },
     success
   });
 };

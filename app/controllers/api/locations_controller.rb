@@ -3,6 +3,12 @@ class Api::LocationsController < ApplicationController
     @locations = User.find(params["user_id"]).locations
   end
 
+  def destroy
+    UserLocation.find_by(user_id: params["user_id"], location_id: params["location_id"]).destroy
+    @id = params["location_id"]
+  end
+
+
   def create
     @loc = Location.create(location_params)
 
