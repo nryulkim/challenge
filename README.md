@@ -1,7 +1,7 @@
 # Journy Coding Challenge
-[Live][heroku]
 
-[heroku]: [http:/journy-challenge.herokuapp.com]
+[Live][heroku]
+[heroku]: http:/journy-challenge.herokuapp.com
 
 This is a full-stack web application using Ruby on Rails as its backend, PostgreSQL as its database, and React.js with a Redux architectural framework on the frontend.
 It also utilizes the Google Maps API, Yelp Fusion API, and FourSquare API in order to get the URLs.
