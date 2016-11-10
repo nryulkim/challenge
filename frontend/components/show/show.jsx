@@ -40,7 +40,6 @@ class Show extends React.Component {
   handleSubmit(e){
     if(e){ e.preventDefault(); }
     const data = merge({}, this.props.location, this.state);
-    debugger
     if(this.props.location.new){
       this.props.newLocation(data, this.props.current_user);
     }else{

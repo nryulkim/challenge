@@ -1,4 +1,4 @@
-import { RECEIVE_LOCATION, REMOVE_LOCATION } from '../actions/location_actions';
+import { RECEIVE_LOCATION, REMOVE_LOCATION, RECEIVE_LOCATIONS } from '../actions/location_actions';
 import merge from 'lodash/merge';
 
 export default (state = {}, action) => {
@@ -11,6 +11,10 @@ export default (state = {}, action) => {
 
     case REMOVE_LOCATION:
       newState = {};
+      return newState;
+
+    case RECEIVE_LOCATIONS:
+      newState = merge(newState, { saved: action.locations });
       return newState;
 
     default:

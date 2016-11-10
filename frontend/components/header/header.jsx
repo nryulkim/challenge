@@ -17,7 +17,7 @@ class Header extends React.Component{
     const { currentUser } = this.props;
     if(currentUser){
       return [
-        <h3>{currentUser.username}</h3>,
+        <Link className="username" to="/locations">{currentUser.username}</Link>,
         <a className="button" onClick={this.signout}>Sign Out</a>
       ];
     }else{

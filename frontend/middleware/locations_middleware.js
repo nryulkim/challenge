@@ -1,6 +1,7 @@
 import * as LocationApi from '../util/location_api_util';
 import {
-  GET_LOCATION, NEW_LOCATION, UPDATE_LOCATION, receiveLocation
+  GET_LOCATION, NEW_LOCATION, UPDATE_LOCATION, MY_LOCATIONS,
+  receiveLocations, receiveLocation
 } from '../actions/location_actions';
 
 export default ({ getState, dispatch }) => next => action => {
@@ -12,16 +13,21 @@ export default ({ getState, dispatch }) => next => action => {
       LocationApi.locations(action.text, action.coords, success);
       return next(action);
 
+    case MY_LOCATIONS:
+      success = locations => {
+        dispatch(receiveLocations(locations));
+      }
+      LocationApi.myLocations(action.id, success);
+      return next(action);
+
     case NEW_LOCATION:
       success = () => {
-        debugger
       }
       LocationApi.createLocation(action.data, action.user, success)
       return next(action);
 
     case UPDATE_LOCATION:
       success = () => {
-        debugger
       }
       LocationApi.updateLocation(action.data, action.user, success)
       return next(action);

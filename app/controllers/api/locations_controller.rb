@@ -1,6 +1,6 @@
 class Api::LocationsController < ApplicationController
   def index
-
+    @locations = User.find(params["user_id"]).locations
   end
 
   def create
@@ -77,6 +77,6 @@ class Api::LocationsController < ApplicationController
       f_url = ""
     end
 
-    { yelp_url: yelp_url, f_url: f_url, lat: lat, lng: lng, name: params["text"], new: true }
+    { yelp_url: yelp_url, f_url: f_url, lat: lat, lng: lng, name: params["text"], new: true, id: nil }
   end
 end

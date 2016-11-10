@@ -4,7 +4,8 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from './app';
 import Session from './session/session_container.js';
 import Show from './show/show_container.js';
-
+import Index from './index/index_container.js';
+import { myLocations } from '../actions/location_actions';
 
 
 const Root = ({store}) => {
@@ -21,6 +22,11 @@ const Root = ({store}) => {
     }
   };
 
+  const _getLocations = () => {
+    const id = store.getState().session.currentUser.id;
+    store.dispatch(myLocations(id));
+  };
+
   return (
     <Provider store={store}>
       <Router history={hashHistory}>
@@ -28,6 +34,7 @@ const Root = ({store}) => {
           <Router path="signup" component={Session} onEnter={_redirectIfLoggedIn}/>
           <Router path="login" component={Session} onEnter={_redirectIfLoggedIn}/>
           <Router path="show" component={Show}/>
+          <Router path="locations" component={Index} onEnter={_getLocations}/>
         </Route>
       </Router>
     </Provider>

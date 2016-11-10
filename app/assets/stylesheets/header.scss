@@ -16,7 +16,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    h3{
+    .username{
+      color: #000;
       margin: 10px 0;
       padding: 2px 5px;
       text-transform: uppercase;

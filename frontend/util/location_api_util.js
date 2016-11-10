@@ -7,6 +7,15 @@ export const locations = (text, coords, success) => {
   });
 };
 
+export const myLocations = (id, success) => {
+  $.ajax({
+    method: "GET",
+    url: `api/locations/?user_id=${id}`,
+    dataType: "json",
+    success
+  });
+};
+
 export const createLocation = (data, user, success) => {
   $.ajax({
     method: "POST",
